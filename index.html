@@ -594,7 +594,7 @@ function renderShare(){
 }
 function drawCard(){
   const r = state.result, P = r.persona, ax = D.axes;
-  const axCell = (k, s) => `<div><b>${s >= 0 ? ax[k].hi : ax[k].lo}</b><span>${Math.round(Math.abs(s) / AXMAX * 100)}%</span></div>`;
+  const axCell = (k, s) => s === 0 ? `<div><b>${ax[k].hi}/${ax[k].lo}</b><span>正中间</span></div>` : `<div><b>${s > 0 ? ax[k].hi : ax[k].lo}</b><span>${Math.round(Math.abs(s) / AXMAX * 100)}%</span></div>`;
   $("#cardHost").innerHTML = `<div class="card" id="card">
     <div class="card-top" style="color:#5a4837">${LOGO.replace("<svg", '<svg style="color:#2b2118"')}<b style="color:#2b2118">马克杯 · 测试</b><span>学习方式自测</span></div>
     <div class="card-k">我的学习类型</div>
@@ -615,7 +615,7 @@ function drawCard(){
 function shareText(){
   const r = state.result, P = r.persona;
   return `【马克杯测试 · 适合你的学习方式】\n我是「${P.name}」（${P.en}）：${P.one}\n` +
-    ["A","B","C"].map(k => (r[k] >= 0 ? D.axes[k].hi : D.axes[k].lo) + " " + Math.round(Math.abs(r[k]) / AXMAX * 100) + "%").join(" · ") + "\n\n" +
+    ["A","B","C"].map(k => r[k] === 0 ? D.axes[k].hi + "/" + D.axes[k].lo + " 正中间" : (r[k] > 0 ? D.axes[k].hi : D.axes[k].lo) + " " + Math.round(Math.abs(r[k]) / AXMAX * 100) + "%").join(" · ") + "\n\n" +
     shareRows(r).map(([a,b]) => `${a}：${b}`).join("\n") +
     `\n\n强项：${P.strong}\n容易卡住：${P.stuck}\n我的学法：${P.method}\n\n你是哪一杯？来测测看。`;
 }
