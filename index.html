@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<title>适合你的学习方式</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+QingKe+HuangYou&family=JetBrains+Mono:wght@500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* 布局：单列窄版面；一把刻度尺贯穿进度与结果，马克杯是唯一的插画角色 */
+:root{
+  --bg:#f3ece1; --paper:#fffaf3; --paper-2:#f8f0e4; --ink:#2b2118; --ink-2:#5a4837; --muted:#8a7764;
+  --line:#e4d6c3; --line-2:#cdb89d; --crema:#b2552f; --crema-soft:#f4ddcd; --matcha:#55753f; --matcha-soft:#e2ebd8;
+  --on-accent:#fffaf3; --shadow:0 10px 30px -18px rgba(70,42,20,.45);
+  --card-bg:#fffaf3; --card-bg-2:#f6ecdd; --card-ink:#2b2118; --card-ink-2:#5a4837; --card-line:#e2d3bf; --card-accent:#b2552f;
+  --f-display:"ZCOOL QingKe HuangYou","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --f-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16110d; --paper:#211913; --paper-2:#2a2019; --ink:#f1e6d7; --ink-2:#d0bea8; --muted:#9d8973;
+    --line:#382c22; --line-2:#56463a; --crema:#e78b62; --crema-soft:#44281b; --matcha:#a3c38d; --matcha-soft:#26301f;
+    --on-accent:#1b120c; --shadow:0 10px 30px -18px rgba(0,0,0,.7); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16110d; --paper:#211913; --paper-2:#2a2019; --ink:#f1e6d7; --ink-2:#d0bea8; --muted:#9d8973;
+  --line:#382c22; --line-2:#56463a; --crema:#e78b62; --crema-soft:#44281b; --matcha:#a3c38d; --matcha-soft:#26301f;
+  --on-accent:#1b120c; --shadow:0 10px 30px -18px rgba(0,0,0,.7); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:0 40px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--crema);outline-offset:3px;border-radius:6px}
+
+/* 品牌条 */
+.brand{display:flex;align-items:center;gap:10px;padding-block:16px 14px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.brand svg{width:30px;height:30px;flex:none}
+.brand b{font-size:14px;letter-spacing:.04em}
+.brand span{margin-left:auto;font-size:11px;color:var(--muted);border:1px solid var(--line-2);border-radius:20px;padding:1px 9px;letter-spacing:.1em}
+
+/* 按钮 */
+.btn{border:0;border-radius:999px;padding:13px 26px;font-weight:700;cursor:pointer;transition:transform .15s ease,background .15s}
+.btn-p{background:var(--crema);color:var(--on-accent);box-shadow:var(--shadow)}
+.btn-p:hover{transform:translateY(-1px)}
+.btn-p:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-s{background:var(--paper);border:1.5px solid var(--line-2);color:var(--ink-2)}
+.btn-s:disabled{opacity:.4;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn-row .btn{flex:1 1 140px}
+
+/* 首页 */
+.intro{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:4px 8px}
+.intro-pill{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.04em;color:var(--ink-2);background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px;margin-bottom:22px}
+.intro-pill b{background:var(--crema);color:var(--on-accent);border-radius:999px;padding:2px 9px;font-weight:700;letter-spacing:.08em}
+.hero-mug{width:150px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.intro h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,8vw,48px);line-height:1.12;margin:16px 0 10px}
+.intro h1 em{font-style:normal;color:var(--crema)}
+.intro .sub{color:var(--ink-2);font-size:15px;margin-bottom:20px}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:28px}
+.pills span{background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--ink-2)}
+.intro .btn{padding:15px 38px;font-size:17px}
+.redeem{width:100%;max-width:360px;display:grid;gap:6px;text-align:left;margin-bottom:16px}
+.redeem label{font-size:13px;font-weight:700;color:var(--ink-2)}
+.redeem-row{display:flex;gap:8px}
+.redeem input{flex:1;min-width:0;font-family:var(--f-mono);font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:11px 12px;border-radius:12px;border:1.5px solid var(--line-2);background:var(--paper);color:var(--ink)}
+.redeem input::placeholder{color:var(--muted);letter-spacing:.04em}
+.redeem input:focus{outline:none;border-color:var(--crema)}
+.redeem .btn{padding:10px 18px;font-size:15px}
+.redeem-msg{font-size:12px;color:var(--muted);min-height:1.7em}
+.redeem.ok input{border-color:var(--matcha);background:var(--matcha-soft)}
+.redeem.ok .redeem-msg{color:var(--matcha);font-weight:700}
+.redeem.bad input{border-color:var(--crema)}
+.redeem.bad .redeem-msg{color:var(--crema)}
+.redeem-msg button{border:0;background:none;padding:0;color:var(--ink-2);text-decoration:underline;cursor:pointer;font-size:12px;font-weight:400;margin-left:6px}
+.intro-fine{font-size:12px;color:var(--muted);max-width:30em;margin-top:18px}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;color:var(--crema);text-transform:uppercase;margin-bottom:8px}
+
+/* 答题页 */
+.qhead{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px 12px;margin-bottom:6px}
+.qhead-row{display:flex;align-items:center;gap:12px}
+.qhead svg{width:40px;height:44px;flex:none}
+.ruler-wrap{flex:1;min-width:0}
+.ruler-meta{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-bottom:4px;font-variant-numeric:tabular-nums}
+.ruler{position:relative;height:16px;border-bottom:1.5px solid var(--line-2)}
+.ruler .fill{position:absolute;left:0;bottom:0;height:6px;background:var(--crema);border-radius:3px 3px 0 0;transition:width .35s ease}
+.ruler .ticks{position:absolute;inset:0;background:
+  repeating-linear-gradient(to right,var(--line-2) 0 1px,transparent 1px calc(100%/var(--n)*5)) bottom/100% 14px no-repeat,
+  repeating-linear-gradient(to right,var(--line-2) 0 1px,transparent 1px calc(100%/var(--n))) bottom/100% 6px no-repeat}
+.ruler .now{position:absolute;bottom:-1px;width:2px;height:16px;background:var(--ink);transition:left .35s ease}
+.hint{font-size:13px;color:var(--muted);margin:12px 0 14px}
+.qcard{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px 18px 18px;box-shadow:var(--shadow)}
+.qnum{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;color:var(--crema);margin-bottom:8px}
+.qtext{font-size:clamp(18px,4.4vw,21px);font-weight:700;line-height:1.5;margin-bottom:18px}
+.opts{display:grid;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;background:var(--paper-2);border:1.5px solid transparent;border-radius:12px;padding:12px 14px;cursor:pointer;line-height:1.55;transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--line-2)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:700;background:var(--bg);color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--crema);background:var(--crema-soft)}
+.opt[aria-pressed="true"] .k{background:var(--crema);color:var(--on-accent)}
+.opt.skip{background:transparent;border:1.5px dashed var(--line-2);color:var(--muted);font-size:14px}
+.opt.skip[aria-pressed="true"]{border-style:solid;border-color:var(--ink-2);background:var(--paper-2);color:var(--ink-2)}
+.opt.skip[aria-pressed="true"] .k{background:var(--ink-2);color:var(--paper)}
+.qnav{display:flex;gap:10px;margin-top:16px}
+.qnav .btn{flex:1}
+.keys{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+@media (hover:none){.keys{display:none}}
+
+/* 计算中 */
+.load{min-height:60vh;display:grid;place-items:center;text-align:center;gap:10px}
+.load svg{width:150px;height:164px}
+.load p{color:var(--ink-2)}
+@keyframes pour{from{transform:translateY(112px)}to{transform:translateY(22px)}}
+.load .liq{animation:pour 1.3s ease-out forwards}
+
+/* 结果页 */
+.rhero{display:grid;grid-template-columns:150px minmax(0,1fr);gap:18px;align-items:center;margin-bottom:6px}
+.rhero svg{width:150px;height:164px}
+.rhero .eyebrow{margin-bottom:4px}
+.rname{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,9vw,54px);line-height:1.05;color:var(--crema)}
+.ren{font-family:var(--f-mono);font-size:12px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin:4px 0 10px}
+.rone{font-size:17px;font-weight:500}
+.sec-title{display:flex;align-items:baseline;gap:10px;margin:30px 0 12px}
+.sec-title h2{font-size:18px;font-weight:900}
+.sec-title span{font-size:12px;color:var(--muted)}
+.axes{display:grid;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.axis-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.axis-head .on{color:var(--ink);font-weight:700}
+.axis-head .pct{font-family:var(--f-mono);font-size:12px;color:var(--crema);font-variant-numeric:tabular-nums;text-align:center}
+.meter{position:relative;height:18px;border-bottom:1.5px solid var(--line-2);background:
+  repeating-linear-gradient(to right,var(--line-2) 0 1px,transparent 1px 10%) bottom/100% 12px no-repeat,
+  repeating-linear-gradient(to right,var(--line-2) 0 1px,transparent 1px 5%) bottom/100% 6px no-repeat}
+.meter::after{content:"";position:absolute;left:50%;bottom:0;width:1.5px;height:18px;background:var(--ink-2)}
+.meter b{position:absolute;bottom:-6px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--crema);border:3px solid var(--paper);box-shadow:0 0 0 1.5px var(--crema)}
+.axis-note{font-size:14px;color:var(--ink-2);margin-top:8px}
+.style3{display:grid;gap:10px}
+.style3 div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.style3 dt{font-size:12px;color:var(--muted);letter-spacing:.08em;margin-bottom:2px}
+.style3 dd{margin:0}
+.style3 .method{background:var(--matcha-soft);border-color:transparent}
+.style3 .method dt{color:var(--matcha)}
+.method-src{font-size:12px;color:var(--muted);margin-top:6px}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.mod{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.mod-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mod-h h3{font-size:15px;font-weight:900}
+.mod-h small{font-size:11px;color:var(--muted);text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--crema-soft);color:var(--crema)}
+.chip.soft{background:var(--paper-2);color:var(--ink-2);font-weight:500}
+.mod p{font-size:14px;color:var(--ink-2)}
+.mod p + p{padding-top:8px;border-top:1px dashed var(--line)}
+.private{margin-top:30px;border-top:1px solid var(--line);padding-top:4px}
+.private .sec-title{margin-top:18px}
+.help{margin-top:12px;background:var(--matcha-soft);border-radius:var(--r);padding:14px 16px;font-size:14px}
+.disclaimer{font-size:12px;color:var(--muted);margin-top:24px}
+.actions{margin-top:22px}
+
+/* 分享 */
+.toggles{display:grid;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:14px}
+.toggles p{font-size:12px;color:var(--muted)}
+.toggles label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.toggles input{width:18px;height:18px;accent-color:var(--crema)}
+.card{background:var(--card-bg);color:var(--card-ink);border-radius:22px;padding:22px 20px 16px;border:1px solid var(--card-line);max-width:420px;margin:0 auto 16px;font-family:var(--f-body)}
+.card-top{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--card-ink-2);margin-bottom:12px}
+.card-top svg{width:24px;height:24px}
+.card-top span{margin-left:auto;font-size:10px;letter-spacing:.12em}
+.card-k{font-size:11px;letter-spacing:.2em;color:var(--card-ink-2);text-align:center}
+.card-mug{display:block;width:120px;height:131px;margin:6px auto 2px}
+.card-name{font-family:var(--f-display);font-size:40px;line-height:1.1;color:var(--card-accent);text-align:center}
+.card-en{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--card-ink-2);text-align:center;text-transform:uppercase}
+.card-one{text-align:center;font-size:14px;margin:8px 4px 12px}
+.card-axes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.card-axes div{background:var(--card-bg-2);border-radius:10px;padding:8px 4px;text-align:center}
+.card-axes b{display:block;font-size:14px}
+.card-axes span{font-family:var(--f-mono);font-size:11px;color:var(--card-ink-2)}
+.card-rows{display:grid;gap:5px;font-size:13px;border-top:1px dashed var(--card-line);padding-top:10px}
+.card-rows div{display:flex;justify-content:space-between;gap:10px}
+.card-rows span{color:var(--card-ink-2)}
+.card-style{display:grid;gap:6px;margin-top:12px}
+.card-style div{background:var(--card-bg-2);border-radius:10px;padding:8px 10px}
+.card-style div.m{background:#e6eddc}
+.card-style span{display:block;font-size:11px;color:var(--card-ink-2);letter-spacing:.06em}
+.card-style p{font-size:13px;line-height:1.55;color:var(--card-ink)}
+.card-foot{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--card-ink-2);margin-top:12px;padding-top:10px;border-top:1px solid var(--card-line)}
+.card-foot svg{width:18px;height:18px}
+.shot{text-align:center;margin-top:14px}
+.shot img{max-width:100%;width:420px;border-radius:22px;box-shadow:var(--shadow)}
+.shot p{font-size:13px;color:var(--muted);margin-top:8px}
+.copybox{width:100%;min-height:120px;margin-top:10px;border:1px solid var(--line-2);border-radius:10px;background:var(--paper);color:var(--ink);padding:10px;font:inherit;font-size:13px}
+footer{text-align:center;font-size:12px;color:var(--muted);padding-top:28px}
+
+@media (max-width:480px){
+  .rhero{grid-template-columns:104px minmax(0,1fr)}
+  .rhero svg{width:104px;height:114px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .load .liq{transform:translateY(22px)}
+}
+</style>
+
+<div class="wrap">
+  <div class="brand" id="brand"></div>
+
+  <!-- 首页 -->
+  <section data-s="intro">
+    <div class="intro">
+      <span class="intro-pill">☕ 有研究依据的学习自测</span>
+      <div class="hero-mug" id="heroMug"></div>
+      <h1>你的思维方式<br>适合<em>怎样学习</em>？</h1>
+      <p class="sub">24 道题 · 十维分析 · 匹配 8 种学习类型</p>
+      <div class="pills"><span>📝 24 道题</span><span>⏱ 约 6 分钟</span><span>☕ 8 种学习类型</span><span>🔬 十维分析</span></div>
+      <form class="redeem" id="redeemForm" novalidate>
+        <label for="codeInput">输入兑换码</label>
+        <div class="redeem-row">
+          <input id="codeInput" type="text" inputmode="latin" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MUG-XXXXX-XXXXX" maxlength="24">
+          <button class="btn btn-s" id="checkBtn" type="submit">验证</button>
+        </div>
+        <p class="redeem-msg" id="codeMsg" aria-live="polite">兑换码在小红书订单详情里，复制粘贴进来就行。</p>
+      </form>
+      <button class="btn btn-p" id="startBtn" disabled>开始测试 →</button>
+      <p class="intro-fine">答案只在你的设备上计算，不会上传。</p>
+    </div>
+  </section>
+
+  <!-- 答题 -->
+  <section data-s="quiz" hidden>
+    <div class="qhead">
+      <div class="qhead-row">
+        <div id="progMug"></div>
+        <div class="ruler-wrap">
+          <div class="ruler-meta"><span id="rulerL">Q01</span><span id="rulerR"></span></div>
+          <div class="ruler" aria-hidden="true"><div class="fill" id="rFill"></div><div class="ticks"></div><div class="now" id="rNow"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="hint" id="hint"></p>
+    <div class="qcard">
+      <div class="qnum" id="qnum"></div>
+      <h2 class="qtext" id="qtext"></h2>
+      <div class="opts" id="opts" role="group" aria-labelledby="qtext"></div>
+    </div>
+    <div class="qnav">
+      <button class="btn btn-s" id="prevBtn">← 上一页</button>
+      <button class="btn btn-p" id="nextBtn">下一页 →</button>
+    </div>
+    <p class="keys">键盘：A–D 或 1–4 选择，← → 翻题</p>
+  </section>
+
+  <!-- 计算中 -->
+  <section data-s="load" hidden>
+    <div class="load"><div><div id="loadMug"></div><p>正在给你的杯子标刻度……</p></div></div>
+  </section>
+
+  <!-- 结果 -->
+  <section data-s="result" hidden>
+    <div id="result"></div>
+  </section>
+
+  <!-- 分享 -->
+  <section data-s="share" hidden>
+    <div class="sec-title" style="margin-top:0"><h2>分享卡片</h2><span>包含全部结果 · 生成图片后长按或右键保存</span></div>
+    <div class="toggles" id="toggles"></div>
+    <div id="cardHost"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" id="backBtn">返回结果</button>
+      <button class="btn btn-s" id="copyBtn">复制文字</button>
+      <button class="btn btn-p" id="shotBtn">生成图片</button>
+    </div>
+    <div id="copyHost"></div>
+    <div class="shot" id="shot"></div>
+  </section>
+
+  <footer>© 马克杯测试 ｜ 原创测试，未经授权禁止转载</footer>
+</div>
+
+<script>
+const D = {"qs": [{"id": "A1", "g": "A", "q": "刚学完一个知识点，下课铃响了，你通常会？", "opts": [{"t": "顺手再查一点相关的，停不下来", "v": 2, "lab": "内在"}, {"t": "先放着，考试要考再说", "v": -2, "lab": "外部"}, {"t": "有点想去玩，但没弄懂心里不踏实", "v": -1, "lab": "内摄"}, {"t": "想到以后用得上，记一下重点", "v": 1, "lab": "认同"}], "sens": false}, {"id": "B1", "g": "B", "q": "学一个新概念时，你最先做的是？", "opts": [{"t": "先弄清它在整个章节里的位置", "v": -1, "lab": "结构"}, {"t": "想它和我已经知道的东西有什么联系", "v": 2, "lab": "探索"}, {"t": "按书上的步骤，一步步跟着做", "v": -2, "lab": "结构"}, {"t": "先看个例子，再想想为什么", "v": 1, "lab": "探索"}], "sens": false}, {"id": "C1", "g": "C", "q": "遇到一个怎么也想不通的问题，你通常会？", "opts": [{"t": "先自己查资料", "v": -1, "lab": "独修"}, {"t": "马上找人讨论", "v": 2, "lab": "共学"}, {"t": "一个人啃到底，不太想问别人", "v": -2, "lab": "独修"}, {"t": "自己想一会儿，不行再问人", "v": 1, "lab": "共学"}], "sens": false}, {"id": "T2", "g": "T", "q": "一天中，你脑子最清楚的时段通常是？", "opts": [{"t": "上午", "v": 3}, {"t": "下午", "v": 2}, {"t": "傍晚到晚上", "v": 1}, {"t": "深夜", "v": 0}], "sens": false}, {"id": "A3", "g": "A", "q": "一门课突然宣布不考试了，你还会继续学它吗？", "opts": [{"t": "会，学了对我将来有用", "v": 1, "lab": "认同"}, {"t": "可能会，不学有点不安心", "v": -1, "lab": "内摄"}, {"t": "会，我本来就喜欢", "v": 2, "lab": "内在"}, {"t": "不会，没考试就没动力了", "v": -2, "lab": "外部"}], "sens": false}, {"id": "B2", "g": "B", "q": "老师讲了一个结论，你的第一反应是？", "opts": [{"t": "把它归到我的知识框架里对应的位置", "v": -2, "lab": "结构"}, {"t": "有点好奇，课后可能会查一查", "v": 1, "lab": "探索"}, {"t": "先记下来，回头再看", "v": -1, "lab": "结构"}, {"t": "“为什么会这样？”想追问到底", "v": 2, "lab": "探索"}], "sens": false}, {"id": "M1", "g": "M1", "q": "学了一个多小时脑子发懵，对你最有效的是？", "opts": [{"t": "换个科目继续", "v": 1}, {"t": "起来走走，或做几下运动", "v": 3}, {"t": "坐着休息一会儿", "v": 0}, {"t": "站起来伸个懒腰", "v": 2}], "sens": false}, {"id": "C2", "g": "C", "q": "你怎么确认自己真的学会了？", "opts": [{"t": "和同学互相出题", "v": 1, "lab": "共学"}, {"t": "合上书，自己默写一遍", "v": -2, "lab": "独修"}, {"t": "讲给别人听，看他能不能听懂", "v": 2, "lab": "共学"}, {"t": "自己做一套题检查", "v": -1, "lab": "独修"}], "sens": false}, {"id": "E1", "g": "EC", "q": "遇到一门很难的课，你的第一感觉是？", "opts": [{"t": "有点难，但应该能跟上", "v": 2}, {"t": "估计学不会，努力也没什么用", "v": 0}, {"t": "花点时间、找对方法，我能学会", "v": 3}, {"t": "心里没底，不知道能不能学会", "v": 1}], "sens": false}, {"id": "R1", "g": "R", "q": "上课被突然点名回答问题，你的第一反应更像？", "opts": [{"t": "有点紧张，但还能想", "v": "稳定"}, {"t": "心跳加速，开始担心答错会怎样", "v": "警觉"}, {"t": "很想低头躲过去", "v": "回避"}, {"t": "脑子一下子空白", "v": "冻结"}], "sens": true}, {"id": "A7", "g": "A", "q": "如果完全没人检查你学没学，你会？", "opts": [{"t": "大概就不怎么学了", "v": -2, "lab": "外部"}, {"t": "照样学感兴趣的部分", "v": 2, "lab": "内在"}, {"t": "学那些对我有用的部分", "v": 1, "lab": "认同"}, {"t": "还是会学，主要是怕自己落后", "v": -1, "lab": "内摄"}], "sens": false}, {"id": "B7", "g": "B", "q": "你的笔记更像？", "opts": [{"t": "分好层级的框架、表格或清单", "v": -2, "lab": "结构"}, {"t": "一张画满箭头的联想图", "v": 2, "lab": "探索"}, {"t": "按顺序记下的要点", "v": -1, "lab": "结构"}, {"t": "正文旁边写满自己的问题和想法", "v": 1, "lab": "探索"}], "sens": false}, {"id": "D1", "g": "D", "q": "一项作业一直拖着没开始，最可能的原因是？", "opts": [{"t": "太无聊、太讨厌了", "v": "太讨厌"}, {"t": "离截止还早", "v": "太遥远"}, {"t": "怕做不好，或不知道从哪开始", "v": "没把握"}, {"t": "一坐下就被手机或别的事拉走", "v": "易分心"}], "sens": false}, {"id": "F1", "g": "F", "q": "小时候考砸了，家里通常会？", "opts": [{"t": "一起看看哪里出了问题，也会安慰我", "v": "权威"}, {"t": "批评或惩罚，强调下次必须考好", "v": "专制"}, {"t": "没太当回事，说下次努力就好", "v": "放任"}, {"t": "好像没人注意到", "v": "疏离"}], "sens": true}, {"id": "C3", "g": "C", "q": "老师布置了小组作业，你的感觉是？", "opts": [{"t": "还行，分工清楚就好", "v": 1, "lab": "共学"}, {"t": "效率太低，最好一个人做", "v": -2, "lab": "独修"}, {"t": "太好了，一起做想法更多", "v": 2, "lab": "共学"}, {"t": "有点麻烦，宁愿自己做", "v": -1, "lab": "独修"}], "sens": false}, {"id": "N2", "g": "N", "q": "读书时跳行、串字，或者把字看错，这种情况对你来说？", "opts": [{"t": "很少", "v": 0}, {"t": "偶尔，累的时候会", "v": 1}, {"t": "经常，但是最近才这样", "v": 2}, {"t": "经常，而且从小到大一直这样", "v": 3}], "sens": true}, {"id": "E3", "g": "EV", "q": "你正在学的东西，和你的关系更像？", "opts": [{"t": "大部分只是为了应付考试", "v": 1}, {"t": "很有意义，和我在乎的事有关", "v": 3}, {"t": "跟我基本没关系", "v": 0}, {"t": "有些有用，有些没用", "v": 2}], "sens": false}, {"id": "P1", "g": "P", "q": "给自己定了一周的学习计划，结果通常是？", "opts": [{"t": "完成大半，有些往后挪", "v": 2}, {"t": "计划定完就没怎么看了", "v": 0}, {"t": "基本都按计划完成", "v": 3}, {"t": "完成一小半", "v": 1}], "sens": false}, {"id": "R2", "g": "R", "q": "考试前一晚，你通常是？", "opts": [{"t": "能正常复习和睡觉", "v": "稳定"}, {"t": "反复检查，停不下来地想会不会出错", "v": "警觉"}, {"t": "不太想碰，找别的事做", "v": "回避"}, {"t": "坐在桌前，却什么都看不进去", "v": "冻结"}], "sens": true}, {"id": "S2", "g": "S", "q": "做对一道题后，你能说清它为什么对吗？", "opts": [{"t": "大部分能", "v": 1}, {"t": "很多时候记住答案就够用了", "v": 3}, {"t": "基本都能说清", "v": 0}, {"t": "有时只记得答案，说不太清", "v": 2}], "sens": false}, {"id": "F2", "g": "F", "q": "学什么、怎么安排时间，家里一般是？", "opts": [{"t": "会和我商量，也有底线", "v": "权威"}, {"t": "基本由大人决定", "v": "专制"}, {"t": "基本随我", "v": "放任"}, {"t": "很少过问", "v": "疏离"}], "sens": true}, {"id": "T4", "g": "T4", "q": "考试前或作业很多的时候，你通常会？", "opts": [{"t": "照常睡", "v": 0}, {"t": "少睡一两个小时", "v": 1}, {"t": "经常熬到很晚", "v": 2}, {"t": "通宵过", "v": 3}], "sens": false}, {"id": "N3", "g": "N", "q": "就算是自己感兴趣的事，也很难长时间保持专注，这种情况对你来说？", "opts": [{"t": "很少", "v": 0}, {"t": "偶尔，累的时候会", "v": 1}, {"t": "经常，但是最近才这样", "v": 2}, {"t": "经常，而且从小到大一直这样", "v": 3}], "sens": true}, {"id": "E5", "g": "E5", "q": "学累了，最能让你回血的是？", "opts": [{"t": "一个人安静待一会儿，放空或深呼吸", "v": "安静"}, {"t": "出门走走，看看树和天", "v": "自然"}, {"t": "找人聊聊天", "v": "社交"}, {"t": "刷一会儿手机", "v": "刷屏"}], "sens": false}], "personas": {"内驱探索独修": {"name": "独立探索者", "en": "像一杯手冲 · 慢慢萃取", "liquid": "#b8733f", "one": "你一个人慢慢把一件事想透，理解是自己泡出来的。", "strong": "能自己找到问题，也能把它连到别的知识上。", "stuck": "钻得太深，考试范围里的东西反而没顾上。", "method": "合上书，在白纸上写一页“我现在怎么理解它”，隔两天再写一次，对照看看漏了什么。"}, "内驱探索共学": {"name": "讨论启发者", "en": "像一壶围炉茶 · 越聊越香", "liquid": "#8c9a5a", "one": "你的想法在聊天里长出来，说着说着就懂了。", "strong": "讨论时反应快，别人一句话能让你想到很远。", "stuck": "聊得热闹，散场后没留下自己的笔记。", "method": "讨论完 10 分钟内，自己口述一遍要点录下来；三天后再听一遍，把漏掉的补上。"}, "内驱结构独修": {"name": "体系搭建者", "en": "像一杯冷萃 · 久泡出味", "liquid": "#5a3823", "one": "你能长时间安静沉浸，按自己的体系一点点搭起来。", "strong": "计划稳，笔记和框架做得扎实。", "stuck": "框架很漂亮，但很少检验自己到底记住没有。", "method": "每搭完一块框架，先把它遮住，凭记忆画一遍再对照。"}, "内驱结构共学": {"name": "讲解带动者", "en": "像一杯拉花 · 做给别人看", "liquid": "#d1a271", "one": "你在教别人的时候学得最透。", "strong": "讲得清楚、有条理，也愿意带别人。", "stuck": "总在帮人，自己的进度被挤掉。", "method": "每周固定给一个人讲一次本周内容，讲之前不看书。"}, "目标探索独修": {"name": "项目驱动者", "en": "像一杯特调 · 边做边配", "liquid": "#a4506a", "one": "你被一个具体项目牵着走，边做边学最带劲。", "strong": "目标一出现就能爆发，动手能力强。", "stuck": "项目一结束就不碰了，学过的很快忘。", "method": "项目结束后一周、一个月，各给自己出 5 道题回顾一次。"}, "目标探索共学": {"name": "组队冲刺者", "en": "像一辆快闪咖啡车 · 人多才开张", "liquid": "#d57f2c", "one": "比赛、黑客松、组队冲刺，是你学得最快的时候。", "strong": "有压力、有队友时，效率极高。", "stuck": "只有活动才启动，平时很难自己学。", "method": "和队友约一个“每周 15 分钟互相出题”，不用等比赛也能保持状态。"}, "目标结构独修": {"name": "高压爆发者", "en": "像一杯意式浓缩 · 压力越大越浓", "liquid": "#3d2517", "one": "你在高压下萃取最浓，截止日是你的燃料。", "strong": "最后关头，专注力惊人。", "stuck": "全靠冲刺，学到的东西留不久。", "method": "把一个大截止日拆成每周一个小测验节点，每个节点都当真的截止来对待。"}, "目标结构共学": {"name": "结伴打卡者", "en": "像一位打卡店长 · 有人看着更稳", "liquid": "#6c8c59", "one": "你靠小组和打卡把自己托住，越有人看着越稳。", "strong": "坚持性好，能带动一群人。", "stuck": "打卡完成了，却没检查自己学会了没有。", "method": "把打卡内容从“学了多久”改成“答对了几题”。"}}, "axes": {"A": {"hi": "自主内驱", "lo": "目标驱动", "hiTxt": "推你学下去的，主要是好奇和“这对我有用”。", "loTxt": "推你学下去的，主要是考试、截止日和看得见的目标。这是一套很可靠的开关。"}, "B": {"hi": "探索连接", "lo": "结构推进", "hiTxt": "你喜欢追问为什么，把新东西和已经知道的连起来。", "loTxt": "你喜欢先搭好框架，按步骤一块一块拿下。"}, "C": {"hi": "共学", "lo": "独修", "hiTxt": "讨论、讲给别人听、有人一起，会让你学得更好。", "loTxt": "你在自己的节奏里学得最深，安静和独立是你的优势。"}}, "copy": {"motive": {"内在": {"chip": "好奇本身", "txt": "让你学下去的是好奇本身。保护它的办法，是给自己留一点“不为考试”的时间。"}, "认同": {"chip": "知道有用", "txt": "你知道学这个对自己有用，所以不好玩也能坚持。把那个“有用”写下来贴在桌前，累的时候看一眼。"}, "内摄": {"chip": "怕内疚", "txt": "推着你的常常是内疚，或者怕丢人。这股劲能用，但很耗人；试着把“我必须”换成“我想要它带来的什么”。"}, "外部": {"chip": "外部开关", "txt": "考试和排名是你最可靠的开关。没什么不好，只是开关不在时，要提前给自己设一个，比如约朋友一起学。"}}, "surface": {"risk": "你可能常靠记答案过关。下次背完一题，试着用自己的话讲一遍“为什么”，讲不出来，就是还没真懂。", "light": "背完答案后，偶尔问自己一句“为什么”，会记得更久。"}, "consc": {"高": "你是能把计划做完的人。可以把自律省下来的力气，留给更难的内容。", "中": "自律时有时无很正常。与其靠意志力，不如靠外部结构：固定时间、固定地点、有人约。", "低": "自律时有时无很正常。与其靠意志力，不如靠外部结构：固定时间、固定地点、有人约。"}, "chrono": {"早鸟": "你上午脑子最清楚。把最难的题放在上午，晚上做复习和整理。", "中间": "你的状态比较平均。把难任务放在你自己感觉最清醒的那个小时就好。", "夜猫": "你下午和晚上才真正醒来。早课避不开时，早上先做简单的事热身，难的留到下午。"}, "sleep": {"light": "偶尔少睡一两小时问题不大，连着几天就会影响记忆。", "card": "熬夜看似多学了几小时，但记忆是在睡觉时整理存好的。考前那一晚，睡够比多看一遍更划算。"}, "body": {"动后学": "你动一动就清醒。学 40 分钟起来走 5 分钟；背完一段去散散步，回来记得更牢。", "手势": "你会用身体帮忙记忆。背单词时给每个词配一个手势，看别人做手势也有用。", "静中学": "你适合安静坐定的状态。给自己一个固定座位，坐下就进入学习模式。"}, "emotion": {"享受": "你觉得自己学得会，也觉得值得学。这是最好学的状态，保持节奏就好。", "焦虑": "你很在乎结果，但不太确定自己能做到。先把任务拆到“10 分钟能做完”，赢几次小的再说。", "无聊": "你学得会，但觉得没意思。试着找到它和你在乎的一件事之间的联系。", "无力": "现在可能既看不到意义，也不太相信努力有用。先别管大目标，只做今天最小的一步，做完就算赢。"}, "recover": {"安静": "你靠安静回血。学累了闭上眼，慢慢呼吸 3 分钟，注意力会比刷手机恢复得快。", "自然": "你靠看看外面回血。出门走 10 分钟，看看树和天，注意力会恢复一些。", "社交": "你靠和人说话回血。找个人随便聊几句，再回来继续。", "刷屏": "刷手机很舒服，但通常不太回血，因为注意力一直被拉着走。试试闭眼呼吸、出门走走或找人聊几句，对比一下感觉。"}, "stress": {"稳定": "紧张时你还能想事情，这是很好的底子。", "警觉": "压力一来，你的大脑会加速运转、反复检查，这是它在保护你。担心冒出来时，把它写下来放到一边，告诉自己“等会儿再处理”。", "回避": "碰到压力你想先躲开，这是身体在给你喘口气。给自己规定“只做 5 分钟”，往往就能开始。", "冻结": "压力大时脑子会一下子空白，这不是你笨，是身体按了暂停键。慢慢呼气，摸一摸桌面，先做最简单的一步。"}, "family": {"权威": "你记得的家里，既有关心也有规矩。这份“被认真对待”的感觉，可以继续用在对待自己身上。", "专制": "你心里可能有个声音说“不够好就会被否定”。它曾经推着你走，现在你可以换一句对自己说：“这次没做好，下次可以怎么改？”", "放任": "小时候没人管，自由，但也没人告诉你从哪开始。现在你可以自己当那个帮你定计划的人。", "疏离": "学习上的事，你可能很多时候只能自己扛。找一个能聊的同学、老师或朋友，会让这件事轻很多。", "混合": "你记得的家里不止一种样子，这很常见。留下对你有用的部分就好。"}, "procr": {"太讨厌": "你拖是因为任务本身太无趣。给它加点东西：配上喜欢的音乐，做完给自己一个小奖励。", "太遥远": "截止日太远，大脑觉得不急。自己设一个提前的小截止，告诉一个人，让他到时来问你。", "没把握": "你怕做不好，所以不敢开始。先做最简单、最不可能出错的那一小块。", "易分心": "你一坐下就被拉走。把手机放到另一个房间，专心 25 分钟后再拿回来。"}, "attention": "你描述的这些情况，如果从小到大一直都在，可以考虑找专业的人做一次评估。有时候“学不进去”不是不够努力，而是需要换一种方法。", "help": "如果这种状态已经持续很久，找一个信任的人或专业的人聊聊，会比一个人扛轻松很多。"}};
+const N = D.qs.length;
+const AXMAX = 6;
+document.documentElement.style.setProperty("--n", N);
+const INK = "#2b2118", MILK = "#fffaf3", TASSEL = "#d4a574";
+let uid = 0;
+
+function mug(o){
+  o = Object.assign({level:.55, liquid:"#c9874f", steam:false, face:"smile", anim:false}, o);
+  const id = "mc" + (uid++);
+  const off = Math.round((1 - o.level) * 112);
+  const liqAttr = o.anim ? `class="liq" style="transform:translateY(${off}px)"` : `transform="translate(0 ${off})"`;
+  const ticks = [118,138,158,178,198].map((y,i)=>`<line x1="56" y1="${y}" x2="${i%2?68:76}" y2="${y}" stroke="${INK}" stroke-width="3.5" stroke-linecap="round"/>`).join("");
+  const mouth = o.face === "calm" ? `<path d="M100,156 L120,156" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`
+                                  : `<path d="M98,153 Q110,164 122,153" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`;
+  const cap = `<path d="M84,98 L84,113 Q110,121 136,113 L136,98" fill="${INK}" stroke="${MILK}" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M60,92 L110,75 L160,92 L110,109 Z" fill="${INK}" stroke="${MILK}" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M110,84 Q150,89 153,108" stroke="${TASSEL}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <rect x="149" y="107" width="8" height="13" rx="2" fill="${TASSEL}"/>`;
+  return `<svg viewBox="40 64 168 156" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${o.label||"马克杯"}">
+    <defs><clipPath id="${id}"><path d="M59,100 L59,205 Q59,210 64,210 L156,210 Q161,210 161,205 L161,100 Z"/></clipPath></defs>
+    <path d="M164,114 Q198,117 198,150 Q198,183 164,186" fill="none" stroke="${MILK}" stroke-width="11" stroke-linecap="round"/>
+    <path d="M164,114 Q198,117 198,150 Q198,183 164,186" fill="none" stroke="${INK}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M56,98 L56,206 Q56,213 63,213 L157,213 Q164,213 164,206 L164,98 Z" fill="${MILK}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
+    <g clip-path="url(#${id})"><rect ${liqAttr} x="50" y="98" width="120" height="125" fill="${o.liquid}" opacity=".9"/></g>
+    <path d="M52,98 L168,98" stroke="${INK}" stroke-width="5" stroke-linecap="round"/>
+    ${ticks}
+    ${cap}
+    <circle cx="98" cy="138" r="5" fill="${INK}"/><circle cx="122" cy="138" r="5" fill="${INK}"/>
+    ${mouth}
+  </svg>`;
+}
+const LOGO = `<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M27,12 Q33,13 33,19 Q33,25 27,26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M5,8 L5,28 Q5,31 8,31 L24,31 Q27,31 27,28 L27,8 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M6,21 Q16,18 26,21 L26,28 Q26,30 24,30 L8,30 Q6,30 6,28 Z" fill="#c77751" opacity=".55"/><line x1="5" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="1.6"/><line x1="5" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="22" x2="9" y2="22" stroke="currentColor" stroke-width="1.6"/><path d="M12,7 L12,11 Q16,13 20,11 L20,7" fill="currentColor"/><path d="M7,6 L16,3 L25,6 L16,9 Z" fill="currentColor"/><path d="M16,5 Q24,6 25,11" stroke="#d4a574" stroke-width="1" fill="none" stroke-linecap="round"/><rect x="23" y="11" width="3" height="4" rx="1" fill="#d4a574"/></svg>`;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let state = {screen:"intro", cur:0, ans:Array(N).fill(null), share:{R:false,F:false,N:false}};
+let advanceTimer = null;
+
+/* ---------- 静态部分 ---------- */
+$("#brand").innerHTML = LOGO + `<b>马克杯 · 测试</b><span>原创自测</span>`;
+$("#heroMug").innerHTML = mug({level:.62, liquid:"#b8733f", steam:true, label:"冒着热气的马克杯"});
+$("#progMug").innerHTML = mug({level:0, liquid:"#b8733f", anim:true, face:"calm", label:"答题进度"});
+$("#loadMug").innerHTML = mug({level:.8, liquid:"#b8733f", anim:true, steam:true, label:"正在计算"});
+
+function show(name){
+  document.querySelectorAll("[data-s]").forEach(el => el.hidden = el.dataset.s !== name);
+  state.screen = name;
+  window.scrollTo(0, 0);
+}
+
+/* ---------- 答题 ---------- */
+function answeredCount(){ return state.ans.filter(a => a !== null).length; }
+
+function renderQ(){
+  const q = D.qs[state.cur], a = state.ans[state.cur];
+  const n = state.cur + 1, done = answeredCount();
+  $("#qnum").textContent = `Q${String(n).padStart(2,"0")} / ${N}`;
+  $("#qtext").textContent = q.q;
+  $("#rulerL").textContent = `Q${String(n).padStart(2,"0")}`;
+  $("#rulerR").textContent = `已答 ${done} / ${N}`;
+  $("#rFill").style.width = (done / N * 100) + "%";
+  $("#rNow").style.left = `calc(${(n - .5) / N * 100}% - 1px)`;
+  const liq = document.querySelector("#progMug .liq");
+  if (liq) liq.style.transform = `translateY(${Math.round((1 - done / N) * 112)}px)`;
+  $("#hint").textContent = q.sens
+    ? (q.g === "N" ? "☕ 想想从小到大的情况，不只是最近。" : "☕ 选第一感觉，不要选“应该怎样”的答案。")
+    : "☕ 选第一感觉，不要选“应该怎样”的答案。";
+  const letters = "ABCD";
+  let html = q.opts.map((o,k) =>
+    `<button class="opt" data-k="${k}" aria-pressed="${a===k}"><span class="k">${letters[k]}</span><span>${esc(o.t)}</span></button>`).join("");
+  $("#opts").innerHTML = html;
+  $("#prevBtn").disabled = state.cur === 0;
+  const last = state.cur === N - 1;
+  $("#nextBtn").textContent = last ? "看结果 →" : "下一页 →";
+  $("#nextBtn").disabled = a === null || (last && answeredCount() < N);
+}
+
+function pick(k){
+  state.ans[state.cur] = k;
+  renderQ();
+}
+function next(){
+  clearTimeout(advanceTimer);
+  if (state.ans[state.cur] === null) return;
+  if (state.cur === N - 1){
+    const miss = state.ans.findIndex(a => a === null);
+    if (miss >= 0){ state.cur = miss; renderQ(); return; }
+    finish(); return;
+  }
+  state.cur++; renderQ();
+}
+function prev(){ clearTimeout(advanceTimer); if (state.cur > 0){ state.cur--; renderQ(); } }
+
+$("#opts").addEventListener("click", e => {
+  const b = e.target.closest(".opt"); if (!b) return;
+  pick(b.dataset.k === "skip" ? "skip" : Number(b.dataset.k));
+});
+$("#nextBtn").addEventListener("click", next);
+$("#prevBtn").addEventListener("click", prev);
+/* ---------- 兑换码 ---------- */
+const CODE_ALPHA = "23456789ABCDEFGHJKMNPQRSTUVWXYZ", CODE_SALT = "mug-learn-4cfb16c737351def", CODE_KEY = "mug_learning_code";
+function normCode(s){ return String(s).toUpperCase().replace(/[^0-9A-Z]/g, ""); }
+async function codeValid(raw){
+  const s = normCode(raw);
+  if (!/^MUG[0-9A-Z]{10}$/.test(s)) return false;
+  const body = s.slice(3), six = body.slice(0, 6);
+  if ([...body].some(c => !CODE_ALPHA.includes(c))) return false;
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(CODE_SALT + "|" + six));
+  const b = new Uint8Array(buf);
+  let n = ((b[0] << 24) >>> 0) + (b[1] << 16) + (b[2] << 8) + b[3];
+  n = n % (31 ** 4);
+  let chk = "";
+  for (let i = 0; i < 4; i++){ chk = CODE_ALPHA[n % 31] + chk; n = Math.floor(n / 31); }
+  return chk === body.slice(6);
+}
+function prettyCode(s){ const c = normCode(s); return c.length === 13 ? `${c.slice(0,3)}-${c.slice(3,8)}-${c.slice(8)}` : s; }
+function setVerified(code){
+  const f = $("#redeemForm");
+  f.classList.remove("bad"); f.classList.add("ok");
+  $("#codeInput").value = prettyCode(code); $("#codeInput").readOnly = true;
+  $("#checkBtn").hidden = true;
+  $("#codeMsg").innerHTML = `已验证 ✓ 可以开始了<button type="button" id="changeCode">换一个码</button>`;
+  $("#changeCode").onclick = () => {
+    try { localStorage.removeItem(CODE_KEY); } catch(e){}
+    f.classList.remove("ok"); $("#codeInput").readOnly = false; $("#codeInput").value = ""; $("#checkBtn").hidden = false;
+    $("#codeMsg").textContent = "兑换码在小红书订单详情里，复制粘贴进来就行。"; $("#startBtn").disabled = true; $("#codeInput").focus();
+  };
+  $("#startBtn").disabled = false;
+  try { localStorage.setItem(CODE_KEY, normCode(code)); } catch(e){}
+}
+$("#redeemForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = $("#codeInput").value;
+  if (!normCode(v)){ $("#codeMsg").textContent = "先把兑换码粘贴进来。"; return; }
+  if (await codeValid(v)) setVerified(v);
+  else {
+    $("#redeemForm").classList.add("bad");
+    $("#codeMsg").textContent = "这个码不对，检查一下有没有少字或多空格。码里不会出现 0、O、1、I、L。";
+    $("#startBtn").disabled = true;
+  }
+});
+$("#codeInput").addEventListener("input", async () => {
+  $("#redeemForm").classList.remove("bad");
+  if (normCode($("#codeInput").value).length === 13 && await codeValid($("#codeInput").value)) setVerified($("#codeInput").value);
+});
+(async () => { try { const saved = localStorage.getItem(CODE_KEY); if (saved && await codeValid(saved)) setVerified(saved); } catch(e){} })();
+
+$("#startBtn").addEventListener("click", () => {
+  if ($("#startBtn").disabled) return; state.cur = state.ans.findIndex(a => a === null); if (state.cur < 0) state.cur = 0; show("quiz"); renderQ(); });
+document.addEventListener("keydown", e => {
+  if (state.screen !== "quiz" || e.metaKey || e.ctrlKey || e.altKey) return;
+  const q = D.qs[state.cur], key = e.key.toLowerCase();
+  const map = {a:0,b:1,c:2,d:3,"1":0,"2":1,"3":2,"4":3};
+  if (key in map){ pick(map[key]); e.preventDefault(); }
+  else if (key === "arrowleft"){ prev(); }
+  else if (key === "arrowright" || key === "enter"){ if (!$("#nextBtn").disabled) next(); }
+});
+
+function finish(){
+  show("load");
+  const liq = document.querySelector("#loadMug .liq");
+  if (liq){ liq.style.animation = "none"; void liq.getBoundingClientRect(); liq.style.animation = ""; }
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  setTimeout(() => { renderResult(); show("result"); }, reduce ? 200 : 1400);
+}
+
+/* ---------- 计分（规格文档“计分规则”一节） ---------- */
+function items(g){ return D.qs.map((q,i) => ({q, a:state.ans[i]})).filter(x => x.q.g === g); }
+function val(x){ return (x.a === null || x.a === "skip") ? null : x.q.opts[x.a].v; }
+function sum(g){ return items(g).reduce((s,x) => s + (val(x) ?? 0), 0); }
+function tally(g, order){
+  const xs = items(g).map(val).filter(v => v !== null);
+  const c = {}; xs.forEach(v => c[v] = (c[v] || 0) + 1);
+  const max = Math.max(0, ...Object.values(c));
+  return {valid: xs.length, tops: order.filter(k => c[k] === max && max > 0), vals: xs};
+}
+
+function compute(){
+  const r = {};
+  r.A = sum("A"); r.B = sum("B"); r.C = sum("C");
+  const key = (r.A >= 0 ? "内驱" : "目标") + (r.B >= 0 ? "探索" : "结构") + (r.C >= 0 ? "共学" : "独修");
+  r.persona = D.personas[key];
+  const labs = items("A").map(x => x.q.opts[x.a].lab);
+  r.motive = tally2(labs, ["内在","认同","内摄","外部"])[0];
+  const s = sum("S"); r.surface = s >= 3 ? "risk" : s === 2 ? "light" : null;
+  const p = sum("P"); r.consc = p >= 3 ? "高" : p === 2 ? "中" : "低";
+  const t = sum("T"); r.chrono = t >= 3 ? "早鸟" : t === 2 ? "中间" : "夜猫";
+  const t4 = sum("T4"); r.sleep = t4 >= 2 ? "card" : t4 === 1 ? "light" : null;
+  r.body = [sum("M1") >= 2 ? "动后学" : "静中学"];
+  const ctl = sum("EC") >= 2, value = sum("EV") >= 2;
+  r.emotion = ctl && value ? "享受" : !ctl && value ? "焦虑" : ctl && !value ? "无聊" : "无力";
+  r.recover = val(items("E5")[0]);
+  r.procr = tally("D", ["太讨厌","太遥远","没把握","易分心"]).tops;
+  const st = tally("R", ["稳定","警觉","回避","冻结"]);
+  r.stress = st.valid >= 2 ? st.tops : null;
+  r.help = st.valid === 2 && st.vals.every(v => v !== "稳定");
+  const fa = tally("F", ["权威","专制","放任","疏离"]);
+  r.family = fa.valid >= 2 ? (fa.tops.length === 1 ? fa.tops[0] : "混合") : null;
+  const nv = items("N").map(val).filter(v => v !== null);
+  r.attention = nv.length === 2 && nv.every(v => v === 3);
+  return r;
+}
+function tally2(list, order){
+  const c = {}; list.forEach(v => c[v] = (c[v] || 0) + 1);
+  const max = Math.max(...Object.values(c));
+  return order.filter(k => c[k] === max);
+}
+
+/* ---------- 结果 ---------- */
+const CHRONO_CHIP = {"早鸟":"早鸟型","中间":"中间型","夜猫":"夜猫型"};
+const BODY_CHIP = {"动后学":"动一动再学","手势":"手势 / 出声帮记忆","静中学":"静中学"};
+
+function axisHTML(k, s){
+  const ax = D.axes[k], hi = s >= 0, pct = Math.round(Math.abs(s) / AXMAX * 100);
+  const pos = (AXMAX - s) / (2 * AXMAX) * 100;
+  const lab = s === 0 ? "正好在中间" : `偏${hi ? ax.hi : ax.lo} ${pct}%`;
+  const bal = Math.abs(s) <= 1 ? " 你在两边之间，两种方式都能用。" : "";
+  return `<div class="axis">
+    <div class="axis-head"><span class="${hi ? "on" : ""}">${ax.hi}</span><span class="pct">${lab}</span><span class="${hi ? "" : "on"}">${ax.lo}</span></div>
+    <div class="meter" role="img" aria-label="${ax.hi}与${ax.lo}之间，${lab}"><b style="left:${pos}%"></b></div>
+    <p class="axis-note">${hi ? ax.hiTxt : ax.loTxt}${bal}</p></div>`;
+}
+function modHTML(title, src, chips, paras){
+  return `<article class="mod"><div class="mod-h"><h3>${title}</h3><small>${src}</small></div>
+    <div class="chips">${chips.map(c => `<span class="chip${c.soft ? " soft" : ""}">${esc(c.t)}</span>`).join("")}</div>
+    ${paras.map(p => `<p>${esc(p)}</p>`).join("")}</article>`;
+}
+
+function renderResult(){
+  const r = compute(), C = D.copy, P = r.persona;
+  state.result = r;
+  const ax = D.axes;
+  let h = `<div class="rhero">${mug({level:.72, liquid:P.liquid, steam:true, label:P.name})}
+    <div><div class="eyebrow">你的学习类型</div><div class="rname">${P.name}</div><div class="ren">${P.en}</div><p class="rone">${P.one}</p></div></div>`;
+
+  h += `<div class="sec-title"><h2>你的三条轴</h2><span>决定人格类型</span></div>
+    <div class="axes">${axisHTML("A", r.A)}${axisHTML("B", r.B)}${axisHTML("C", r.C)}</div>`;
+
+  h += `<div class="sec-title"><h2>你的学法</h2></div>
+    <dl class="style3">
+      <div><dt>强项</dt><dd>${P.strong}</dd></div>
+      <div><dt>容易卡住的地方</dt><dd>${P.stuck}</dd></div>
+      <div class="method"><dt>你的版本：练习测试 + 分散练习</dt><dd>${P.method}</dd>
+        <p class="method-src">这两种方法在研究里对几乎所有人都最有效（Dunlosky 等，2013），上面是它们换成你的做法。</p></div>
+    </dl>`;
+
+  const mods = [];
+  const mo = C.motive[r.motive];
+  mods.push(modHTML("动力引擎", "自我决定理论", [{t:"主导动力：" + mo.chip}], [mo.txt]));
+  const proc = [r.B >= 0 ? ax.B.hiTxt : ax.B.loTxt];
+  const procChips = [{t: r.B >= 0 ? ax.B.hi : ax.B.lo}];
+  if (r.surface){ proc.push(C.surface[r.surface]); procChips.push({t: r.surface === "risk" ? "注意表层记忆" : "小提醒", soft:true}); }
+  mods.push(modHTML("加工方式", "Biggs 学习取向", procChips, proc));
+  mods.push(modHTML("人格底色", "大五人格 · 尽责性", [{t:"尽责性：" + r.consc}], [C.consc[r.consc]]));
+  const tm = [C.chrono[r.chrono]]; const tmChips = [{t: CHRONO_CHIP[r.chrono]}];
+  if (r.sleep){ tm.push(C.sleep[r.sleep]); tmChips.push({t:"睡眠提醒", soft:true}); }
+  mods.push(modHTML("黄金时段", "时型与睡眠", tmChips, tm));
+  mods.push(modHTML("身体开关", "运动与具身认知", r.body.map(b => ({t: BODY_CHIP[b]})), r.body.map(b => C.body[b])));
+  mods.push(modHTML("情绪天气", "控制—价值理论", [{t:"主导情绪：" + r.emotion}, {t:"回血方式：" + r.recover, soft:true}], [C.emotion[r.emotion], C.recover[r.recover]]));
+  mods.push(modHTML("拖延开关", "Steel 拖延研究", r.procr.map(t => ({t})), r.procr.map(t => C.procr[t])));
+  h += `<div class="sec-title"><h2>七个日常模块</h2></div><div class="mods">${mods.join("")}</div>`;
+
+  const priv = [];
+  if (r.stress) priv.push(modHTML("压力反应", "创伤知情视角", r.stress.map(t => ({t})), r.stress.map(t => C.stress[t])));
+  if (r.family) priv.push(modHTML("成长环境回声", "Baumrind 教养方式", [{t: r.family === "混合" ? "混合" : r.family + "型回声"}], [C.family[r.family]]));
+  if (r.attention) priv.push(modHTML("注意力与阅读信号", "只做提示，不做判断", [{t:"值得留意", soft:true}], [C.attention]));
+  if (priv.length || r.help){
+    h += `<div class="private"><div class="sec-title"><h2>只给你看的部分</h2><span>默认不会出现在分享卡上</span></div>
+      <div class="mods">${priv.join("")}</div>${r.help ? `<p class="help">${C.help}</p>` : ""}</div>`;
+  }
+  h += `<p class="disclaimer">这是一份帮你了解自己学习习惯的趣味测试，不是心理或医学诊断。结果反映的是你此刻的倾向，过一段时间再测可能会不一样。</p>
+    <div class="btn-row actions"><button class="btn btn-s" id="againBtn">重新测一次</button><button class="btn btn-p" id="toShare">生成分享卡片</button></div>`;
+  $("#result").innerHTML = h;
+  $("#againBtn").addEventListener("click", restart);
+  $("#toShare").addEventListener("click", () => { renderShare(); show("share"); });
+}
+
+function restart(){
+  state.ans = Array(N).fill(null); state.cur = 0; state.share = {R:false,F:false,N:false};
+  $("#shot").innerHTML = ""; $("#copyHost").innerHTML = "";
+  show("intro");
+}
+
+/* ---------- 分享 ---------- */
+function shareRows(r){
+  const rows = [
+    ["动力引擎", D.copy.motive[r.motive].chip],
+    ["加工方式", (r.B >= 0 ? D.axes.B.hi : D.axes.B.lo) + (r.surface === "risk" ? " · 注意表层记忆" : "")],
+    ["人格底色", "尽责性 " + r.consc],
+    ["黄金时段", CHRONO_CHIP[r.chrono] + (r.sleep === "card" ? " · 熬夜偏多" : "")],
+    ["身体开关", r.body.map(x => BODY_CHIP[x]).join(" / ")],
+    ["情绪天气", r.emotion + " · 回血靠" + r.recover],
+    ["拖延开关", r.procr.join(" / ")],
+  ];
+  if (r.stress) rows.push(["压力反应", r.stress.join(" / ")]);
+  if (r.family) rows.push(["成长环境回声", r.family === "混合" ? "混合" : r.family + "型"]);
+  if (r.attention) rows.push(["注意力与阅读", "值得留意"]);
+  return rows;
+}
+function renderShare(){
+  $("#toggles").hidden = true;
+  drawCard();
+}
+function drawCard(){
+  const r = state.result, P = r.persona, ax = D.axes;
+  const axCell = (k, s) => `<div><b>${s >= 0 ? ax[k].hi : ax[k].lo}</b><span>${Math.round(Math.abs(s) / AXMAX * 100)}%</span></div>`;
+  $("#cardHost").innerHTML = `<div class="card" id="card">
+    <div class="card-top" style="color:#5a4837">${LOGO.replace("<svg", '<svg style="color:#2b2118"')}<b style="color:#2b2118">马克杯 · 测试</b><span>学习方式自测</span></div>
+    <div class="card-k">我的学习类型</div>
+    <div class="card-mug">${mug({level:.72, liquid:P.liquid, steam:true, label:P.name})}</div>
+    <div class="card-name">${P.name}</div><div class="card-en">${P.en}</div>
+    <p class="card-one">${P.one}</p>
+    <div class="card-axes">${axCell("A", r.A)}${axCell("B", r.B)}${axCell("C", r.C)}</div>
+    <div class="card-rows">${shareRows(r).map(([a,b]) => `<div><span>${a}</span><b>${esc(b)}</b></div>`).join("")}</div>
+    <div class="card-style">
+      <div><span>强项</span><p>${P.strong}</p></div>
+      <div><span>容易卡住</span><p>${P.stuck}</p></div>
+      <div class="m"><span>我的学法</span><p>${P.method}</p></div>
+    </div>
+    <div class="card-foot">${LOGO.replace("<svg", '<svg style="color:#5a4837"')}<span>© 马克杯测试 · 适合你的学习方式</span></div>
+  </div>`;
+  $("#shot").innerHTML = "";
+}
+function shareText(){
+  const r = state.result, P = r.persona;
+  return `【马克杯测试 · 适合你的学习方式】\n我是「${P.name}」（${P.en}）：${P.one}\n` +
+    ["A","B","C"].map(k => (r[k] >= 0 ? D.axes[k].hi : D.axes[k].lo) + " " + Math.round(Math.abs(r[k]) / AXMAX * 100) + "%").join(" · ") + "\n\n" +
+    shareRows(r).map(([a,b]) => `${a}：${b}`).join("\n") +
+    `\n\n强项：${P.strong}\n容易卡住：${P.stuck}\n我的学法：${P.method}\n\n你是哪一杯？来测测看。`;
+}
+$("#copyBtn").addEventListener("click", () => {
+  const t = shareText();
+  const fallback = () => {
+    $("#copyHost").innerHTML = `<textarea class="copybox" id="copyArea" aria-label="分享文字" readonly>${esc(t)}</textarea>`;
+    const ta = $("#copyArea"); ta.focus(); ta.select();
+    $("#copyBtn").textContent = "已选中，请手动复制";
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(() => { $("#copyBtn").textContent = "已复制"; setTimeout(() => $("#copyBtn").textContent = "复制文字", 1800); }, fallback);
+  } else fallback();
+});
+$("#shotBtn").addEventListener("click", async () => {
+  const btn = $("#shotBtn");
+  if (typeof html2canvas !== "function"){ $("#shot").innerHTML = `<p>图片功能没加载出来，可以直接截图上面的卡片。</p>`; return; }
+  btn.disabled = true; btn.textContent = "生成中……";
+  try{
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const canvas = await html2canvas($("#card"), {scale:2, backgroundColor:null, useCORS:true, logging:false});
+    $("#shot").innerHTML = `<img alt="我的学习类型分享卡" src="${canvas.toDataURL("image/png")}"><p>手机上长按图片保存，电脑上右键“图片另存为”。</p>`;
+  }catch(err){
+    $("#shot").innerHTML = `<p>图片没生成成功，可以直接截图上面的卡片。</p>`;
+  }
+  btn.disabled = false; btn.textContent = "重新生成图片";
+});
+$("#backBtn").addEventListener("click", () => show("result"));
+
+/* ---------- 启动（保留答题进度） ---------- */
+function boot(data){
+  if (data && Array.isArray(data.ans) && data.ans.length === N){
+    state = Object.assign(state, data);
+  }
+  if (state.screen === "quiz"){ show("quiz"); renderQ(); }
+  else if (state.screen === "load" || state.screen === "result"){ if (answeredCount() === N){ renderResult(); show("result"); } else show("intro"); }
+  else if (state.screen === "share"){ if (answeredCount() === N){ renderResult(); renderShare(); show("share"); } else show("intro"); }
+  else show("intro");
+}
+window.claude?.hot?.snapshot?.(() => ({screen:state.screen, cur:state.cur, ans:state.ans, share:state.share}));
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+</script>
+
+</body>
+</html>
