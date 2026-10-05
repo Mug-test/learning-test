@@ -223,12 +223,12 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding-top:28px}
       <p class="sub">24 道题 · 十维分析 · 匹配 8 种学习类型</p>
       <div class="pills"><span>📝 24 道题</span><span>⏱ 约 6 分钟</span><span>☕ 8 种学习类型</span><span>🔬 十维分析</span></div>
       <form class="redeem" id="redeemForm" novalidate>
-        <label for="codeInput">输入兑换码</label>
+        <label for="codeInput">输入测试密码</label>
         <div class="redeem-row">
-          <input id="codeInput" type="text" inputmode="latin" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MUG-XXXXX-XXXXX" maxlength="24">
+          <input id="codeInput" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="4 位数字密码" maxlength="8">
           <button class="btn btn-s" id="checkBtn" type="submit">验证</button>
         </div>
-        <p class="redeem-msg" id="codeMsg" aria-live="polite">兑换码在小红书订单详情里，复制粘贴进来就行。</p>
+        <p class="redeem-msg" id="codeMsg" aria-live="polite">密码在小红书订单的发货信息里。</p>
       </form>
       <button class="btn btn-p" id="startBtn" disabled>开始测试 →</button>
       <p class="intro-fine">答案只在你的设备上计算，不会上传。</p>
@@ -388,33 +388,26 @@ $("#opts").addEventListener("click", e => {
 });
 $("#nextBtn").addEventListener("click", next);
 $("#prevBtn").addEventListener("click", prev);
-/* ---------- 兑换码 ---------- */
-const CODE_ALPHA = "23456789ABCDEFGHJKMNPQRSTUVWXYZ", CODE_SALT = "mug-learn-4cfb16c737351def", CODE_KEY = "mug_learning_code";
-function normCode(s){ return String(s).toUpperCase().replace(/[^0-9A-Z]/g, ""); }
+/* ---------- 测试密码 ---------- */
+const PW_HASH = "d96cec9af25baf3dd76f18fb6b6e2e970dfbaa83a06327123c6028b9c8e3853f", CODE_KEY = "mug_learning_pw";
+function normCode(s){ return String(s).replace(/[^0-9]/g, ""); }
 async function codeValid(raw){
   const s = normCode(raw);
-  if (!/^MUG[0-9A-Z]{10}$/.test(s)) return false;
-  const body = s.slice(3), six = body.slice(0, 6);
-  if ([...body].some(c => !CODE_ALPHA.includes(c))) return false;
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(CODE_SALT + "|" + six));
-  const b = new Uint8Array(buf);
-  let n = ((b[0] << 24) >>> 0) + (b[1] << 16) + (b[2] << 8) + b[3];
-  n = n % (31 ** 4);
-  let chk = "";
-  for (let i = 0; i < 4; i++){ chk = CODE_ALPHA[n % 31] + chk; n = Math.floor(n / 31); }
-  return chk === body.slice(6);
+  if (s.length !== 4) return false;
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("mug-learn-pw|" + s));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("") === PW_HASH;
 }
-function prettyCode(s){ const c = normCode(s); return c.length === 13 ? `${c.slice(0,3)}-${c.slice(3,8)}-${c.slice(8)}` : s; }
+function prettyCode(s){ return normCode(s); }
 function setVerified(code){
   const f = $("#redeemForm");
   f.classList.remove("bad"); f.classList.add("ok");
   $("#codeInput").value = prettyCode(code); $("#codeInput").readOnly = true;
   $("#checkBtn").hidden = true;
-  $("#codeMsg").innerHTML = `已验证 ✓ 可以开始了<button type="button" id="changeCode">换一个码</button>`;
+  $("#codeMsg").innerHTML = `已验证 ✓ 可以开始了<button type="button" id="changeCode">重新输入</button>`;
   $("#changeCode").onclick = () => {
     try { localStorage.removeItem(CODE_KEY); } catch(e){}
     f.classList.remove("ok"); $("#codeInput").readOnly = false; $("#codeInput").value = ""; $("#checkBtn").hidden = false;
-    $("#codeMsg").textContent = "兑换码在小红书订单详情里，复制粘贴进来就行。"; $("#startBtn").disabled = true; $("#codeInput").focus();
+    $("#codeMsg").textContent = "密码在小红书订单的发货信息里。"; $("#startBtn").disabled = true; $("#codeInput").focus();
   };
   $("#startBtn").disabled = false;
   try { localStorage.setItem(CODE_KEY, normCode(code)); } catch(e){}
@@ -422,17 +415,17 @@ function setVerified(code){
 $("#redeemForm").addEventListener("submit", async e => {
   e.preventDefault();
   const v = $("#codeInput").value;
-  if (!normCode(v)){ $("#codeMsg").textContent = "先把兑换码粘贴进来。"; return; }
+  if (!normCode(v)){ $("#codeMsg").textContent = "先输入密码。"; return; }
   if (await codeValid(v)) setVerified(v);
   else {
     $("#redeemForm").classList.add("bad");
-    $("#codeMsg").textContent = "这个码不对，检查一下有没有少字或多空格。码里不会出现 0、O、1、I、L。";
+    $("#codeMsg").textContent = "密码不对，再核对一下订单里的 4 位数字。";
     $("#startBtn").disabled = true;
   }
 });
 $("#codeInput").addEventListener("input", async () => {
   $("#redeemForm").classList.remove("bad");
-  if (normCode($("#codeInput").value).length === 13 && await codeValid($("#codeInput").value)) setVerified($("#codeInput").value);
+  if (normCode($("#codeInput").value).length === 4 && await codeValid($("#codeInput").value)) setVerified($("#codeInput").value);
 });
 (async () => { try { const saved = localStorage.getItem(CODE_KEY); if (saved && await codeValid(saved)) setVerified(saved); } catch(e){} })();
 
